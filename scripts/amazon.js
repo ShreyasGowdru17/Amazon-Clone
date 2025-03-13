@@ -1,5 +1,5 @@
 import {products} from '../data/products.js';
-import {cart,addToCart} from '../data/cart.js';
+import {cart,addToCart, cartQuantity} from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
 
 
@@ -105,6 +105,8 @@ products.forEach(product=>{
 //make it interactive
 
 document.querySelector('.js-product-grid').innerHTML=productsHTML;
+updateCart();
+
 
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
   button.addEventListener('click',()=>{ 
@@ -113,3 +115,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
       updateCart();
   });
 });
+
+export function updateCart(){
+  document.querySelector('.cart-quantity').innerHTML=cartQuantity();
+}

@@ -1,4 +1,4 @@
-import {updateCart} from '../scripts/amazon.js';
+
 export let cart=JSON.parse(localStorage.getItem('cart'));
 if(!cart.length){
   cart=[{
@@ -11,11 +11,20 @@ if(!cart.length){
   }];
 }
 updateCheckOut();
-function updateCheckOut(){
+export function updateCheckOut(){
   let cartItemsCount=document.querySelector('.js-return-to-home-link');
   if (cartItemsCount) {
-    cartItemsCount.innerHTML = (cart.length || '0')+' '+'items'; // Ensures no empty text
+    cartItemsCount.innerHTML = cartQuantity()+' '+'items'; // Ensures no empty text
   }
+
+}
+
+export function cartQuantity(){
+  let totalQuantity=0;
+  cart.forEach((cartItem)=>{
+    totalQuantity+=cartItem.quantity;
+  });
+  return totalQuantity;
 }
 
 
@@ -49,10 +58,7 @@ export function addToCart(productId){
   }
   localStorage.setItem('cart',JSON.stringify(cart));
   updateCheckOut();
-  document.addEventListener('DOMContentLoaded', () => {
-    updateCart();
-  });
-  
+
 }
 
 export function removeFromCart(productId){
@@ -64,13 +70,11 @@ export function removeFromCart(productId){
   });
   cart=newCart;
   localStorage.setItem('cart',JSON.stringify(cart));
-  console.log(JSON.parse(localStorage.getItem('cart')));
-  updateCheckOut();
-  document.addEventListener('DOMContentLoaded', () => {
-    updateCart();
-  });
-  
+  updateCheckOut();  
+
 }
+
+
 
 
 

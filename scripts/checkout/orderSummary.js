@@ -1,11 +1,12 @@
 import {cart,removeFromCart,updateDeliveryOption} from '../../data/cart.js';
-import {products} from '../../data/products.js';
+import {products,getProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
 import {updateCheckOut} from '../../data/cart.js';
 import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 hello();
-import {deliveryOptions} from '../../data/deliverOptions.js';
+import {deliveryOptions,getDeliveryOption} from '../../data/deliverOptions.js';
+import {renderPaymentSummary} from './paymentSummary.js';
 
 
 // const today=dayjs();
@@ -19,20 +20,11 @@ export function renderOrderSummary(){
   cart.forEach((cartItem)=>{
     const productId=cartItem.productId;
 
-    let matchingProduct;
-    products.forEach((product)=>{
-        if(product.id===productId){
-          matchingProduct=product;
-        }
-    });
+    const matchingProduct=getProduct(productId);
 
     const deliveryOptionId=cartItem.deliveryOptionId;
-    let matchingId;
-    deliveryOptions.forEach((deliveryOption)=>{
-        if(deliveryOption.id===cartItem.deliveryOptionId){
-          matchingId=deliveryOption;
-        }
-    });
+    const matchingId=getDeliveryOption(deliveryOptionId);
+   
     cartSummaryHTML+=`<div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">
           Delivery date: ${deliveryDayFormatting(matchingId.deliveryDays)}
@@ -131,6 +123,7 @@ export function renderOrderSummary(){
         localStorage.setItem('cart',JSON.stringify(cart));
         updateCheckOut();
         renderOrderSummary();
+        renderPaymentSummary();
       });
 
     })
@@ -151,6 +144,7 @@ export function renderOrderSummary(){
       const {productId,deliveryOptionId}=element.dataset;
       updateDeliveryOption(productId,deliveryOptionId); 
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }

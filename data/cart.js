@@ -61,12 +61,12 @@ export function addToCart(productId){
   let quantityToBeAdded=Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
 
   if(matchingItem){
-    matchingItem.quantity+=1;
+    matchingItem.quantity+=quantityToBeAdded;
   }
   else{
     cart.push({
       productId:productId,
-      quantity:1,
+      quantity:quantityToBeAdded,
       deliveryOptionId:'1'
     });
   }

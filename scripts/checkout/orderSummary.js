@@ -5,7 +5,7 @@ import {updateCheckOut} from '../../data/cart.js';
 import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 hello();
-import {deliveryOptions,getDeliveryOption} from '../../data/deliverOptions.js';
+import {deliveryOptions,getDeliveryOption,deliveryDayFormatting} from '../../data/deliverOptions.js';
 import {renderPaymentSummary} from './paymentSummary.js';
 
 
@@ -27,7 +27,7 @@ export function renderOrderSummary(){
    
     cartSummaryHTML+=`<div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">
-          Delivery date: ${deliveryDayFormatting(matchingId.deliveryDays)}
+          Delivery date: ${deliveryDayFormatting(matchingId)}
         </div>
 
         <div class="cart-item-details-grid">
@@ -67,17 +67,10 @@ export function renderOrderSummary(){
 
   });
 
-  function deliveryDayFormatting(deliveryDays){
-    const today=dayjs();
-    const deliveryDate=today.add(deliveryDays,'days');
-    const dateString=deliveryDate.format('dddd,MMMM D');
-    return dateString;
-  }
-
   function deliveryOptionsHTML(productId,cartItem){
     let html='';
     deliveryOptions.forEach((deliveryOption)=>{
-      let dateString=deliveryDayFormatting(deliveryOption.deliveryDays);
+      let dateString=deliveryDayFormatting(deliveryOption);
       const priceString=deliveryOption.priceCents===0 ?'FREE':`$${formatCurrency(deliveryOption.priceCents)} -`;
       const isChecked= deliveryOption.id===cartItem.deliveryOptionId;
       html+=`
@@ -104,8 +97,9 @@ export function renderOrderSummary(){
     link.addEventListener('click',()=>{
         const productId=link.dataset.productId;
         removeFromCart(productId);
-        const button=document.querySelector(`.js-cart-item-container-${productId}`);
-        button.remove();
+        // const button=document.querySelector(`.js-cart-item-container-${productId}`);
+        // button.remove();
+        renderOrderSummary();
         renderPaymentSummary();
     })
   });

@@ -1,5 +1,5 @@
-
 import { formatCurrency } from '../scripts/utils/money.js';
+
 export function getProduct(productId){
   let matchingProduct;
 
@@ -79,11 +79,44 @@ class Appliances extends Product{
   }
 }
 
-const date=new Date();
-console.log(date);
-console.log(date.toLocaleTimeString());
+export let products=[]
 
-export const products = [
+export function loadProducts(fun){
+
+  const xhr=new XMLHttpRequest();
+
+  xhr.addEventListener('load',()=>{
+    products=JSON.parse(xhr.response).map((productDetails)=>{
+
+      let isAppliance=false;
+      productDetails.keywords.forEach((keyword)=>{
+        if(keyword==='appliances'){
+          isAppliance=true;
+        }
+      });
+    
+      if(productDetails.type==='clothing'){
+        return new Clothing(productDetails);
+      }
+      else if(isAppliance){
+        return new Appliances(productDetails);
+      }
+      return new Product(productDetails);
+    });
+    console.log(products);
+    fun();
+  });
+
+  xhr.open('GET','https://supersimplebackend.dev/products');
+  xhr.send();
+  
+}
+loadProducts();
+/*const date=new Date();
+console.log(date);
+console.log(date.toLocaleTimeString());*/
+
+/*export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -762,5 +795,5 @@ export const products = [
   return new Product(productDetails);
 });
 
-console.log(products);
+console.log(products);*/
 

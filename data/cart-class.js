@@ -1,4 +1,4 @@
-class Cart{
+export default class Cart{
   cartItems;
   #localStorageKey;
 

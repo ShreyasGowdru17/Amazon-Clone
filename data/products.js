@@ -1,3 +1,4 @@
+
 import { formatCurrency } from '../scripts/utils/money.js';
 export function getProduct(productId){
   let matchingProduct;
@@ -52,6 +53,29 @@ class Clothing extends Product{
     <a href="${this.sizeChartLink}" target="_blank">
     Size Chart
     </a>`;
+  }
+}
+
+class Appliances extends Product{
+  instructionsLink;
+  warrantyLink;
+
+  constructor(productDetails){
+    super(productDetails);
+    this.instructionsLink='images/appliance-instructions.png';
+    this.warrantyLink='images/appliance-warranty.png';
+    console.log(this.instructionsLink,this.warrantyLink);
+  }
+
+  extraInfoHTML(){
+    return  `
+    <a href="${this.instructionsLink}" target="_blank">
+    Instructions
+    </a>
+    <a href="${this.warrantyLink}" target="_blank">
+    Warranty
+    </a>
+    `;
   }
 }
 
@@ -720,9 +744,21 @@ export const products = [
   }
 ].map((productDetails)=>{
 
+  let isAppliance=false;
+  productDetails.keywords.forEach((keyword)=>{
+    if(keyword==='appliances'){
+      isAppliance=true;
+    }
+  });
+
   if(productDetails.type==='clothing'){
     return new Clothing(productDetails);
   }
+  else if(isAppliance){
+    return new Appliances(productDetails);
+  }
+
+
   return new Product(productDetails);
 });
 

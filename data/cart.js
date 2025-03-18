@@ -102,6 +102,15 @@ export function updateDeliveryOption(productId,deliveryOptionId){
 
 }
 
+export function loadCartFetch(){
+
+  const promise=fetch('https://supersimplebackend.dev/cart').then((response)=>{
+    return response.json();
+  });
+
+  return promise;
+}
+
 export function loadCart(fun){
 
   const xhr=new XMLHttpRequest();

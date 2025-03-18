@@ -3,29 +3,28 @@ import { renderPaymentSummary } from './checkout/paymentSummary.js';
 //import '../data/cart-class.js'
 //import '../data/backend-practise.js';
 import {loadProductsFetch} from '../data/products.js';
-import '../../data/car.js';
-import { loadCart} from '../data/cart.js';
+import {loadCart} from '../data/cart.js';
 
 
-// Promise.all([
-//   /*new Promise((resolve)=>{
-//     console.log('Starting Promise')
-//     loadProducts(()=>{
-//       console.log('Products Loaded');
-//       resolve(); 
-//     });
-//   })*/
-//  loadProductsFetch(),
-//   new Promise((resolve)=>{
-//     loadCart(()=>{
-//       resolve();
-//     });
-//    })
+Promise.all([
+  /*new Promise((resolve)=>{
+    console.log('Starting Promise')
+    loadProducts(()=>{
+      console.log('Products Loaded');
+      resolve(); 
+    });
+  })*/
+ loadProductsFetch(),
+  new Promise((resolve)=>{
+    loadCart(()=>{
+      resolve();
+    });
+   })
 
-// ]).then(()=>{
-//   renderOrderSummary();
-//   renderPaymentSummary();
-// })
+]).then(()=>{
+  renderOrderSummary();
+  renderPaymentSummary();
+})
 
 /*new Promise((resolve)=>{
   console.log('Starting Promise')
@@ -53,5 +52,4 @@ loadProducts(()=>{
   });
 });
 */
-renderOrderSummary();
-renderPaymentSummary();
+

@@ -7,25 +7,25 @@ import '../../data/car.js';
 import { loadCart} from '../data/cart.js';
 
 
-Promise.all([
-  /*new Promise((resolve)=>{
-    console.log('Starting Promise')
-    loadProducts(()=>{
-      console.log('Products Loaded');
-      resolve(); 
-    });
-  })*/
- loadProductsFetch(),
-  new Promise((resolve)=>{
-    loadCart(()=>{
-      resolve();
-    });
-   })
+// Promise.all([
+//   /*new Promise((resolve)=>{
+//     console.log('Starting Promise')
+//     loadProducts(()=>{
+//       console.log('Products Loaded');
+//       resolve(); 
+//     });
+//   })*/
+//  loadProductsFetch(),
+//   new Promise((resolve)=>{
+//     loadCart(()=>{
+//       resolve();
+//     });
+//    })
 
-]).then(()=>{
-  renderOrderSummary();
-  renderPaymentSummary();
-})
+// ]).then(()=>{
+//   renderOrderSummary();
+//   renderPaymentSummary();
+// })
 
 /*new Promise((resolve)=>{
   console.log('Starting Promise')
@@ -53,3 +53,5 @@ loadProducts(()=>{
   });
 });
 */
+renderOrderSummary();
+renderPaymentSummary();
